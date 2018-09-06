@@ -1,0 +1,26 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: 
+      archive:
+       path: /var/log
+       dest: /home/devops/group1.tar.gz
+       format: gz
+      when: 
+       - inventory_hostname == "station100" 
+       - inventory_hostname == "station103"
+      tags:
+       - nogroup1
+
+    - name: 
+      archive:
+       path: /etc/sysconfig
+       dest: /home/devops/group2.tar.gz
+      tags:
+       - nogroup2
+      when: (ansible_hostname == 'station102' and ansible_hostname == 'station252')
+
+ 

@@ -1,0 +1,22 @@
+---
+ - hosts: a
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: 
+      archive:
+       path: /etc/sysconfig
+       dest: /var/tmp/aa.tar.gz
+
+ - hosts: b
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: 
+      archive:
+       path: /etc/pki
+       dest: /usr/share/pk.tar.gz
+
+ 

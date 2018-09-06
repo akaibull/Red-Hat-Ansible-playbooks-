@@ -1,0 +1,30 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: installing httpd
+      yum: 
+       name: httpd
+       state: latest
+   
+    - name: restarting httpd service
+      service: 
+       name: httpd
+       state: restarted
+       enabled: yes
+
+    - name: restarting httpd service
+      service: 
+       name: firewalld
+       state: restarted
+       enabled: yes
+    
+    - name:
+      firewalld: 
+       service: http
+       state: enabled
+       permanent: true
+       immediate: true
+

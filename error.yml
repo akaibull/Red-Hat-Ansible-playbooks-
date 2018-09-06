@@ -1,0 +1,39 @@
+---
+ - hosts: all
+   remote_user: devops
+   ignore_errors: yes
+   become: true
+   tasks:
+    - name: installing ex407-server
+      yum: 
+       name: ex407-server
+       state: latest
+      register: x
+
+    - name: output of variables
+      debug: var=x
+    
+    - name: message of installation
+      debug: 
+       msg: "installation failed"
+      when: ( x!= 0 )
+ 
+    - name: starting ex407-server service
+      service: 
+       name: ex407-server
+       state: started
+      register: y   
+    
+    - name: output of variables
+      debug: var=y
+    
+    - name: output of variables
+      debug:
+       msg: "service failed"
+      when: ( y.failed == true )
+
+    - name: output of variables
+      debug: 
+       msg: "playbook unsuccessful"
+      when: ( x!= 0 and y.failed == true )
+

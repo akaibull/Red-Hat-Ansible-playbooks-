@@ -1,0 +1,18 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   ignore_errors: yes
+   tasks:
+    - name: creating block
+      block:
+       - name: copy
+         copy:
+          src: /etc/examhost
+          dest: /var/index.html
+
+      rescue:
+       - name: copy
+         copy:
+          content: "you have to copy it manually"
+          dest: /var/index.html

@@ -1,0 +1,13 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: 
+      archive:
+       path: /etc/sysconfig
+       dest: /var/tmp/sys.tar.gz
+
+
+ 

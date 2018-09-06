@@ -1,0 +1,13 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   vars_files:
+    - crypt.yml
+   tasks:
+    - name: 
+      get_url:
+       url: ftp://192.168.10.254/pub/vlt.zip
+       dest: /var/www/html/vault.zip
+    - name:
+      command: unzip -o -P "{{ password }}" -d /var/www/html/vault /var/www/html/vault.zip

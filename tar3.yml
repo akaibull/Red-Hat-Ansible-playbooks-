@@ -1,0 +1,20 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   vars:
+    x: 100
+    y: 200
+   tasks:
+    - name: creating tar 
+      archive:  path=/var/log  dest=/var/www/group1.tar.gz 
+      when: (ansible_hostname == 'station102' and x == 100 ) 
+      tags:
+       - group1
+
+
+    - name: creating tar 
+      archive:  path=/var/www/html  dest=/var/www/group2.tar.gz 
+      when: ( ansible_hostname == 'station103' and y == 200 )
+      tags:
+       - group2

@@ -1,0 +1,41 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: installing httpd
+      yum: 
+       name: httpd
+       state: latest
+
+    - name: getting url
+      get_url: 
+       url: http://192.168.10.254/automation/httpd.conf
+       dest: /etc/httpd/conf.d/sample.conf
+
+
+    - name: writing adhoc 
+      copy: 
+       content: "adhoc networks" 
+       dest: /var/www/html/index.html
+    
+    - name: restarting httpd service
+      service: 
+       name: httpd
+       state: restarted
+       enabled: yes
+
+    - name:
+      firewalld: 
+       service: http
+       state: enabled
+       permanent: true
+       immediate: true
+
+
+    - name: writing adhoc 
+      lineinfile: 
+       line: "hello world from {{ ansible_hostname }}" 
+       path: /var/www/html/index.html
+

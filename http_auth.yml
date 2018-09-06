@@ -1,0 +1,40 @@
+---
+ - hosts: all
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: installing httpd
+      file: 
+       path: /var/www/html/protected
+       state: directory
+       owner: apache
+       mode: 0755
+
+    - name: getting url
+      get_url: 
+       url: http://192.168.10.254/automation/htaccess
+       dest: /var/www/html/protected/.htaccess
+
+    - name: replace 
+      replace:
+       path: /etc/httpd/conf/httpd.conf
+       regexp: 'AllowOverride None'
+       replace: 'AllowOverride Authconfig'
+    
+    - name: getting url
+      get_url:
+       url: http://192.168.10.254/automation/htpasswd
+       dest: /var/www/html/protected/.htpasswd
+    
+    - name: getting url
+      get_url:
+       url: http://192.168.10.254/automation/secure.html
+       dest: /var/www/html/protected/index.html
+
+    - name: restarting httpd service
+      service:
+       name: httpd
+       state: restarted
+       enabled: yes
+

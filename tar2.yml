@@ -1,0 +1,27 @@
+---
+ - hosts: c
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - name: 
+      archive:
+       path: /var/log
+       dest: /home/devops/group1.tar.gz
+       format: gz
+      tags:
+       - nogroup1
+
+ - hosts: d
+   remote_user: devops
+   become: true
+   #ignore_error: yes
+   tasks:
+    - archive:
+       path: /etc/sysconfig
+       dest: /home/devops/group2.tar.gz
+       format: gz
+      tags:
+       - nogroup2
+      
+ 
